@@ -1,0 +1,31 @@
+{
+  "name": "playground2",
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/topheman/playground2.git"
+  },
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "~3.3.4",
+    "socket.io": "~0.9.16",
+    "ejs": "*"
+  },
+  "devDependencies": {
+    "matchdep": ">=0.1.1",
+    "grunt": ">=0.4.0",
+    "grunt-contrib-connect": ">=0.1.2",
+    "grunt-open": ">=0.2.0",
+    "grunt-contrib-requirejs": ">=0.4.1",
+    "grunt-contrib-cssmin": ">=0.6.1",
+    "grunt-contrib-clean": ">=0.4.1",
+    "grunt-contrib-copy": ">=0.4.1",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-ftp-deploy": "0.0.9",
+    "grunt-manifest": "~0.4.0",
+    "grunt-processhtml": "~0.1.0"
+  }
+}

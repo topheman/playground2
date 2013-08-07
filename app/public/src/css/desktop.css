@@ -1,0 +1,19 @@
+ul#infos li:before {
+    content:"·";
+    font-size:300px;
+    vertical-align:middle;
+    line-height:20px;
+}
+ul#infos li{
+    list-style: none;
+    margin-left: -50px;
+}
+ul#infos li span{
+    color:black;
+}
+#playground{
+    border: 1px solid black;
+    position: absolute;
+    top:20px;
+    right:10px;
+}
