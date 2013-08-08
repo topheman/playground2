@@ -1,4 +1,4 @@
-define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
+define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,undefined,undefined){
     
     var desktop;
     
@@ -18,7 +18,7 @@ define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
     }
     
     function socketConnect(){
-        socket = io.connect(window.location.protocol+'://'+window.location.host);
+        socket = io.connect(window.location.protocol+'//'+window.location.host);
         socket.on('who-is-there',function(data){
             socket.emit('desktop-connect',{});
         });

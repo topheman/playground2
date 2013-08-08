@@ -1,11 +1,37 @@
-define(['custom/common'],function(common){
+define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
     
     var mobile;
     
     var inputX = 0,
-        inputY = 0
-//        socket
+        inputY = 0,
+        socket
     ;
+
+     function socketConnect (callback){
+        socket = io.connect(window.location.protocol+'//'+window.location.host);
+        socket.on('who-is-there', function(data){
+            console.log('respond to who-is-there');
+            socket.emit('mobile-connect',{});
+        });
+        socket.on('mobile-connected',function(data){
+            console.log('respond to mobile-connected');
+            console.log('mobile connected',data);
+//            log(data.socketId);
+            document.getElementById('ball').style.backgroundColor = data.color;
+            callback();
+        });
+    }
+
+     function pushMotionInfos (){
+        console.info('pushMotionInfos');
+        socket.emit('mobile-infos',{
+            inputX: inputX,
+            inputY: inputY
+        });
+        console.log('updateCoordinates');
+        document.getElementById("coords").innerHTML = "inputX : "+inputX+" - inputY : "+inputY;
+        window.requestAnimFrame(pushMotionInfos);
+    }
     
     mobile = {
     
@@ -50,37 +76,7 @@ define(['custom/common'],function(common){
                 inputY = (event.accelerationIncludingGravity.y).toFixed(5);
             }, false);
             //push coordinates to server via socket.io
-            this.socketConnect(this.pushMotionInfos);
-        },
-
-        updateCoordinates : function (){
-            console.log('updateCoordinates');
-            document.getElementById("coords").innerHTML = "inputX : "+inputX+" - inputY : "+inputY;
-        },
-
-        socketConnect : function (callback){
-            socket = io.connect(window.location.protocol+'//'+window.location.host);
-            socket.on('who-is-there', function(data){
-                console.log('respond to who-is-there');
-                socket.emit('mobile-connect',{});
-            });
-            socket.on('mobile-connected',function(data){
-                console.log('respond to mobile-connected');
-                console.log('mobile connected',data);
-    //            log(data.socketId);
-                document.getElementById('ball').style.backgroundColor = data.color;
-                callback();
-            });
-        },
-
-        pushMotionInfos : function (){
-            console.info('pushMotionInfos');
-            socket.emit('mobile-infos',{
-                inputX: inputX,
-                inputY: inputY
-            });
-            this.updateCoordinates();
-            window.requestAnimFrame(this.pushMotionInfos);
+            socketConnect(pushMotionInfos);
         },
 
         log : function (msg){
