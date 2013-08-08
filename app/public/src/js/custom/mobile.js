@@ -34,13 +34,6 @@ define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
     
     mobile = {
     
-        isDeviceMotionEnabled : function (){
-            if(window.DeviceMotionEvent)
-                return true;
-            else
-                return false;
-        },
-    
         isWebSocketsEnabled : function (){
             if(window.WebSocket)
                 return true;
@@ -67,13 +60,21 @@ define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
             if(common.isRemoteTiltEnabled())
                 return;
             //do not execute if all the features needed aren't here
-            if(!this.checkFeatures())
+            if( (!window.DeviceMotionEvent && !window.DeviceOrientationEvent) || (!("ontouchstart" in window) && !window.DeviceMotionEvent) || (!("ontouchstart" in window) && !window.DeviceOrientationEvent) )
                 return;
             //listen to the orientation of the device
-            window.addEventListener("devicemotion", function(event){
-                inputX = (event.accelerationIncludingGravity.x).toFixed(5);
-                inputY = (event.accelerationIncludingGravity.y).toFixed(5);
-            }, false);
+            if(window.DeviceMotionEvent){
+                window.addEventListener("devicemotion", function(event){
+                    inputX = (event.accelerationIncludingGravity.x).toFixed(5);
+                    inputY = (event.accelerationIncludingGravity.y).toFixed(5);
+                }, false);
+            }
+            else if(window.DeviceOrientationEvent){
+                window.addEventListener('deviceorientation',function(e){
+                    inputX = (e.beta/6).toFixed(5);
+                    inputY = (e.gamma/6).toFixed(5);
+                },false);
+            }
             //push coordinates to server via socket.io
             socketConnect(pushMotionInfos);
         },
