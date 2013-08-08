@@ -36,7 +36,6 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         socket.on('desktop-update-motion-infos',function(data){
 //            console.log('desktop update',data);
             updateMotionInfos(data);
-            manageCollisions();
         });
     }
     
@@ -59,18 +58,29 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         loop1: for(var id in balls){
             loop2: for(var mobileId in mobiles){
                 if(mobileId === id){
-                    updateBall(balls[id],mobiles[mobileId]);
+                    updateBallInfos(balls[id],mobiles[mobileId]);
                     break loop2;
                 }
             }
         }
     }
     
-    function updateBall(ball,mobileInfos){
+    function updateBallInfos(ball,mobileInfos){
+        console.info(mobileInfos);
         ball.inputX = mobileInfos.inputX;
         ball.inputY = mobileInfos.inputY;
+    }
+    
+    function moveBall(ball){
         ball.move(ball.inputX*DEVICEMOTION_INPUT_RATIO,-ball.inputY*DEVICEMOTION_INPUT_RATIO);
         ball.manageStageBorderCollision(width, height);
+    }
+    
+    function moveBalls(){
+        var ball;
+        for (ball in balls){
+            moveBall(balls[ball]);
+        }
     }
     
     /**
@@ -112,10 +122,12 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         }
     }
     
-    function render(){
+    function render(timeElapsed){
 //        var frame = (new Date()).getTime() - lastTime;
 //        lastTime = (new Date()).getTime();
 //        console.info('frame',frame);
+        moveBalls();
+        manageCollisions();
         renderInfos();
         renderScreen();
         window.requestAnimFrame(render);
