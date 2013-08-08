@@ -4,9 +4,8 @@
  */
 
 var express = require('express')
-  , routes = require('./app/routes')
-  , user = require('./app/routes/user')
   , http = require('http')
+  , fs = require('fs')
   , path = require('path');
 
 var port = process.env.PORT || 3000;
@@ -32,8 +31,14 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
-app.get('/users', user.list);
+//declare routes
+fs.readdir('./app/routes', function(err, files){
+    files.forEach(function(fn) {
+        if(!/\.js$/.test(fn)) return;
+        console.log(fn);
+        require('./app/routes/' + fn)(app);
+    });
+});
 
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

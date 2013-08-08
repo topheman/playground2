@@ -58,7 +58,9 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         console.info('removeMobile>',data,balls);
         delete balls[data.id];
         var elem = document.getElementById(data.id);
-        elem.parentNode.removeChild(elem);
+        if(elem){
+            elem.parentNode.removeChild(elem);
+        }
         console.info('>removeMobile',data,balls);
     }
     
@@ -84,7 +86,6 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
      * @param {Object} mobileInfos
      */
     function updateBallInfos(ball,mobileInfos){
-        console.info(mobileInfos);
         ball.inputX = mobileInfos.inputX;
         ball.inputY = mobileInfos.inputY;
     }
@@ -125,8 +126,8 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
     
     function prepareCanvas(){
         var el = document.getElementById('playground');
-        width   = el.width = common.stage.width;
-        height  = el.height = common.stage.height;
+        width   = el.width;
+        height  = el.height;
         ctx = el.getContext('2d');
     }
     
