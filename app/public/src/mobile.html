@@ -20,14 +20,20 @@
         <div id="coords"></div>
         <div id="errors"></div>
         <div id="ball"></div>
-        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+        <!--<script type="text/javascript" src="/socket.io/socket.io.js"></script>-->
         <script src="./js/vendor/require.js" type="text/javascript"></script>
         <script type="text/javascript">
-            require(['./js/require.config'], function(config) {
-                require(['custom/mobile'], function(mobile) {
-                    mobile.init();
+            (function(){
+                var  dependencies = ['custom/mobile','/socket.io/socket.io.js'];
+                if(!window.DeviceMotionEvent){
+                    dependencies.push('vendor/device-motion-polyfill');
+                }
+                require(['./js/require.config'], function(config) {
+                    require(dependencies, function(mobile) {
+                        mobile.init();
+                    });
                 });
-            });
+            })()
         </script>
     </body>
 </html>

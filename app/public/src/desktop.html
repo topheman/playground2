@@ -12,11 +12,11 @@
         <div id="errors"></div>
         <canvas id="playground" width="1024" height="768"></canvas>
         <div>23:34</div>
-        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+        <!--<script type="text/javascript" src="/socket.io/socket.io.js"></script>-->
         <script src="./js/vendor/require.js" type="text/javascript"></script>
         <script type="text/javascript">
             require(['./js/require.config'], function(config) {
-                require(['custom/desktop'], function(desktop) {
+                require(['custom/desktop',"/socket.io/socket.io.js"], function(desktop) {
                     desktop.init();
                 });
             });
