@@ -11,8 +11,9 @@
   "version": "1.0.0",
   "dependencies": {
     "express": "~3.3.4",
-    "socket.io": "~0.9.16",
-    "ejs": "*"
+    "socket.io": "~0.8.7",
+    "ejs": "*",
+    "requirejs": "~2.1.8"
   },
   "devDependencies": {
     "matchdep": ">=0.1.1",
