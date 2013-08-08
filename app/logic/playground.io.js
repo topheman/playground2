@@ -25,16 +25,20 @@ exports.init = function(io) {
             socket.broadcast.emit('desktop-add-mobile', infos);
         });
         socket.on('mobile-infos', function(data) {
+            if(!mobiles[socket.id]){
+                return;
+            }
             mobiles[socket.id].inputX = data.inputX;
             mobiles[socket.id].inputY = data.inputY;
-//        console.log('mobile-infos',mobiles[socket.id]);
             //dispatch coordinates to desktops
             socket.broadcast.emit('desktop-update-motion-infos', mobiles);
         });
 
         //desktop side
         socket.on('desktop-connect', function(data) {
-            desktops[socket.id] = {};
+            desktops[socket.id] = {
+                timeStamp : Date.now()
+            };
             console.info('desktop connected');
             socket.emit('desktop-connected', {});
         });
