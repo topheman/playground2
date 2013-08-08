@@ -1,3 +1,8 @@
+/**
+ * This file is used as well on the server and on the front, via requirejs
+ *
+ */
+
 define(function(){
     
     var common;

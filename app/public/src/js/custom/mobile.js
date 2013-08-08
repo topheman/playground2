@@ -16,7 +16,6 @@ define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
         socket.on('mobile-connected',function(data){
             console.log('respond to mobile-connected');
             console.log('mobile connected',data);
-//            log(data.socketId);
             document.getElementById('ball').style.backgroundColor = data.color;
             callback();
         });

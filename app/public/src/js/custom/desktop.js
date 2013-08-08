@@ -7,8 +7,7 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         width,
         height,
         ctx,
-        DEVICEMOTION_INPUT_RATIO = 0.2,
-        lastTime = 0
+        DEVICEMOTION_INPUT_RATIO = 0.2
     ;
     
     function init(){
@@ -39,12 +38,22 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         });
     }
     
+    /**
+     * Push callback from the server when it notifies a new mobile just connected
+     * Creates a ball and adds its infos
+     * @param {Object} data
+     */
     function addMobile(data){
         balls[data.id] = new Ball(data.x, data.y, common.ballConst.radius, common.ballConst.mass, common.ballConst.gravity, common.ballConst.elasticity, common.ballConst.friction, data.color, common.ballConst.lifeTime, common.ballConst.options);
         console.info('addMobile',data,balls);
         document.getElementById('infos').innerHTML += '<li id="'+data.id+'" style="color:'+balls[data.id].getColor()+'"><span>toto</span></li>';
     }
     
+    /**
+     * Push callback from the server when it notifies a mobile just disconnected
+     * Removes the ball
+     * @param {Object} data
+     */
     function removeMobile(data){
         console.info('removeMobile>',data,balls);
         delete balls[data.id];
@@ -53,6 +62,10 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         console.info('>removeMobile',data,balls);
     }
     
+    /**
+     * Only updates inputX and inputY of the balls (the ball will be moved later to manage latency cause of the network)
+     * @param {Object} mobiles
+     */
     function updateMotionInfos(mobiles){
 //        console.info('updateMotionInfos');
         loop1: for(var id in balls){
@@ -65,17 +78,29 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         }
     }
     
+    /**
+     * Updates inputX and inputY of the ball
+     * @param {Ball} ball
+     * @param {Object} mobileInfos
+     */
     function updateBallInfos(ball,mobileInfos){
         console.info(mobileInfos);
         ball.inputX = mobileInfos.inputX;
         ball.inputY = mobileInfos.inputY;
     }
     
+    /**
+     * Physicly moves the ball and checks for out of bounds collision
+     * @param {Ball} ball
+     */
     function moveBall(ball){
         ball.move(ball.inputX*DEVICEMOTION_INPUT_RATIO,-ball.inputY*DEVICEMOTION_INPUT_RATIO);
         ball.manageStageBorderCollision(width, height);
     }
     
+    /**
+     * Moves all the balls
+     */
     function moveBalls(){
         var ball;
         for (ball in balls){
@@ -123,9 +148,6 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
     }
     
     function render(timeElapsed){
-//        var frame = (new Date()).getTime() - lastTime;
-//        lastTime = (new Date()).getTime();
-//        console.info('frame',frame);
         moveBalls();
         manageCollisions();
         renderInfos();
