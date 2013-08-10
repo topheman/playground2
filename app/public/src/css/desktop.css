@@ -12,10 +12,23 @@
 }
 ul#messages li{
     list-style: none;
-    font-size : 2em;
-    font-weight: bold;
     line-height: 1.2em;
     transition: opacity 1s;
+}
+ul#messages li.level-1{
+    font-size : 2em;
+    font-weight: bold;
+    font-color: #900000;
+}
+ul#messages li.level-2{
+    font-size : 1.5em;
+    font-weight: bold;
+    font-style: italic;
+}
+ul#messages li.level-3{
+    font-size : 1.2em;
+    font-weight: bold;
+    font-style: italic;
 }
 ul#messages li.read{
     opacity: 0;
@@ -45,4 +58,10 @@ body.loaded #playground{
     background-color: white;
     border-color: #900000;
     background-position: 50% 50%;
+}
+@media only screen
+and (max-width : 539px){
+    #explanation{
+        margin-right: 0px;
+    }
 }

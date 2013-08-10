@@ -10,18 +10,19 @@ a, strong,h1,h2{
 }
 /* Smartphones (portrait and landscape) ----------- */
 @media only screen
-and (max-width : 599px){
+and (max-width : 539px){
     h1{
         background-image: url(./img/topheman-playground-bandeau-min.png);
         text-indent: -9999px;
-        height: 85px;
-        width: 390px;
+        height: 70px;
+        width: 320px;
+        background-size: 320px 70px;
         margin: 0 auto;
     }
 }
 /* Desktops and laptops ----------- */
 @media only screen
-and (min-width : 600px) {
+and (min-width : 540px) {
     h1{
         background-image: url(./img/topheman-playground-bandeau.png);
         text-indent: -9999px;
@@ -43,7 +44,7 @@ and (min-width : 600px) {
 }
 #forkongithub a::after{
     bottom:1px;top:auto;
-}@media screen and (min-width:600px){
+}@media screen and (min-width:540px){
     #forkongithub{
         position:absolute;display:block;top:0;right:0;width:200px;overflow:hidden;height:200px;
     }

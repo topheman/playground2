@@ -11,7 +11,7 @@ module.exports = function(app) {
         var qrCode = null;
         var qrCode = require('qrcode-npm');
         var qr = qrCode.qrcode(4, 'M');
-        qr.addData(Date.now());
+        qr.addData("http://topheman-playground.herokuapp.com/mobile");
         qr.make();
 
         var imgQrCode = qr.createImgTag(5);    // creates an <img> tag as text

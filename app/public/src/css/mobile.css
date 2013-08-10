@@ -1,6 +1,10 @@
 #ball{
-    width: 30px;
-    height: 30px;
-    border-radius: 30px;
-    -moz-border-radius: 30px;
+    width: 120px;
+    height: 120px;
+    border-radius: 120px;
+    -moz-border-radius: 120px;
+    margin : 15px auto;
+}
+h2, #coords{
+    text-align: center;
 }

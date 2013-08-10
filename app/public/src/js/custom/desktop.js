@@ -39,14 +39,16 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         });
     }
     
-    function addMessage(message){
+    function addMessage(message,importance){
+        importance = importance || 3;
         var liMessage = document.createElement('li');
         liMessage.innerHTML = message;
+        liMessage.className = "level-"+importance;
         document.getElementById('messages').appendChild(liMessage);
         liMessage.addEventListener('webkitTransitionEnd',function( event ) { this.parentNode.removeChild(this);}, false );//webkit
         liMessage.addEventListener('transitionend',function( event ) { this.parentNode.removeChild(this);}, false );//ff
         liMessage.addEventListener('OTransitionEnd',function( event ) { this.parentNode.removeChild(this);}, false );//o
-        setTimeout(function(){liMessage.className = "read";},2000);
+        setTimeout(function(){liMessage.className += " read";},2000);
     }
     
     /**
@@ -58,7 +60,7 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         balls[data.id] = new Ball(data.x, data.y, common.ballConst.radius, common.ballConst.mass, common.ballConst.gravity, common.ballConst.elasticity, common.ballConst.friction, data.color, common.ballConst.lifeTime, common.ballConst.options);
         console.info('addMobile',data,balls);
         document.getElementById('infos').innerHTML += '<li id="'+data.id+'" style="color:'+balls[data.id].getColor()+'"><span>toto</span></li>';
-        addMessage("A new mobile just connected");
+        addMessage("A new mobile just connected",2);
     }
     
     /**
@@ -73,7 +75,7 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         if(elem){
             elem.parentNode.removeChild(elem);
         }
-        addMessage("A mobile just disconnected");
+        addMessage("A mobile just disconnected",2);
         console.info('>removeMobile',data,balls);
     }
     
