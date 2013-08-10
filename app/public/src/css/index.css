@@ -1,0 +1,30 @@
+.game-link-wrapper{
+    margin-right:90px;
+}
+a.game-link{
+    width:100%;
+    display: block;
+    text-align: center;
+    background-color: white;
+    border: 1px solid #900000;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 4em;
+    height: 32px;
+    min-height: 35px;
+    vertical-align: middle;
+    margin: 0px auto;
+    display: block;
+    text-decoration: none;
+}
+a.game-link:hover{
+    background-color: #900000;
+    color:white;
+}
+a.game-link{
+    padding-top:25px;
+    padding-left:45px;
+    padding-right:45px;
+    padding-bottom:20px;
+    background-color: white;
+}

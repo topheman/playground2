@@ -3,14 +3,25 @@
     <head>
         <title><%= title %> - Desktop</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" type="text/css" href="./css/common.css" />
         <link rel="stylesheet" type="text/css" href="./css/desktop.css" />
     </head>
     <body>
-        <h1><%= title %> - Desktop</h1>
-        <h2>Gyro infos</h2>
-        <ul id="infos"></ul>
-        <div id="errors"></div>
+        <span id="forkongithub"><a href="https://github.com/topheman/playground2" target="_blank">Fork me on GitHub</a></span>
+        <div id="explanation">
+            <p><%- imgQrCode %><a href="./">Home page</a></p>
+            <p><strong>Snap this QR-Code with your smartphone</strong> and <strong>get control of the ball</strong> which is on your desktop computer from your mobile device !</p>
+            <p>You can connect with multiple devices.</p>
+            <p>Here is the url to connect if you can't read the QR-Code (you can even test from your desktop computer with the device motion emulator) : <br></p>
+        </div>
+        <div style="clear:both"></div>
         <canvas id="playground" width="<%= stage.width %>" height="<%= stage.height %>"></canvas>
+        <div>
+            <h2>Gyro infos</h2>
+            <ul id="messages"></ul>
+            <ul id="infos"></ul>
+            <div id="errors"></div>
+        </div>
         <script src="./js/vendor/require.js" type="text/javascript"></script>
         <script type="text/javascript">
             require(['./js/require.config'], function(config) {

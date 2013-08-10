@@ -1,19 +1,48 @@
+#explanation{
+    display:block;
+    margin-right: 150px;
+    margin-top:20px;
+    min-height: 200px;
+    clear:both;
+}
+#explanation img{
+    margin: 0pt 1em 1em 0pt;
+    float: left;
+    border:none;
+}
+ul#messages li{
+    list-style: none;
+    font-size : 2em;
+    font-weight: bold;
+    line-height: 1.2em;
+    transition: opacity 1s;
+}
+ul#messages li.read{
+    opacity: 0;
+}
 ul#infos li:before {
-    content:"·";
-    font-size:300px;
+    content: "\2022";
+    font-size:150px;
     vertical-align:middle;
-    line-height:20px;
+    line-height:60px;
 }
 ul#infos li{
     list-style: none;
     margin-left: -50px;
+    white-space: nowrap;
 }
 ul#infos li span{
     color:black;
 }
 #playground{
     border: 1px solid black;
-    position: absolute;
-    top:20px;
-    right:10px;
+    float: right;
+    transition: background-color 1.5s, border-color 1.5s, background-position 1.5s;
+    margin-bottom: 20px;
+    background: url(img/topheman-playground-bandeau-min.png) no-repeat 50% -30%;
+}
+body.loaded #playground{
+    background-color: white;
+    border-color: #900000;
+    background-position: 50% 50%;
 }

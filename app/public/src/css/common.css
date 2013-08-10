@@ -1,0 +1,52 @@
+body{
+    background-color: #EFEFEF;
+    font-family: Verdana,Geneva,Arial,Helvetica,sans-serif;
+    font-size: 80%;
+    line-height: 1.5em;
+    overflow-y: scroll;
+}
+a, strong,h1,h2{
+    color:#900000;
+}
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen
+and (max-width : 599px){
+    h1{
+        background-image: url(./img/topheman-playground-bandeau-min.png);
+        text-indent: -9999px;
+        height: 85px;
+        width: 390px;
+        margin: 0 auto;
+    }
+}
+/* Desktops and laptops ----------- */
+@media only screen
+and (min-width : 600px) {
+    h1{
+        background-image: url(./img/topheman-playground-bandeau.png);
+        text-indent: -9999px;
+        height: 130px;
+        width: 600px;
+        margin: 0 auto;
+    }
+}
+
+/** github ribbon **/
+
+#forkongithub a{
+    background:#000;color:#fff;text-decoration:none;font-family:arial, sans-serif;text-align:center;font-weight:bold;padding:5px 40px;font-size:1rem;line-height:2rem;position:relative;transition:0.5s;
+}
+#forkongithub a:hover{
+    background:#900000;color:#fff;
+}#forkongithub a::before,#forkongithub a::after{
+    content:"";width:100%;display:block;position:absolute;top:1px;left:0;height:1px;background:#fff;
+}
+#forkongithub a::after{
+    bottom:1px;top:auto;
+}@media screen and (min-width:600px){
+    #forkongithub{
+        position:absolute;display:block;top:0;right:0;width:200px;overflow:hidden;height:200px;
+    }
+    #forkongithub a{width:200px;position:absolute;top:60px;right:-60px;transform:rotate(45deg);-webkit-transform:rotate(45deg);box-shadow:4px 4px 10px rgba(0,0,0,0.8);
+    }
+}

@@ -15,7 +15,7 @@ define(function(){
         },
         
         ballConst : {
-            radius           : 15,
+            radius           : 30,
             mass             : 1.3,
             gravity          : 1,
             elasticity       : 0.98,

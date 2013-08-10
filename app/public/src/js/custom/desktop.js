@@ -14,6 +14,7 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         prepareCanvas();
         socketConnect();
         render();
+        document.getElementsByTagName('body')[0].className = "loaded";
     }
     
     function socketConnect(){
@@ -38,6 +39,16 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         });
     }
     
+    function addMessage(message){
+        var liMessage = document.createElement('li');
+        liMessage.innerHTML = message;
+        document.getElementById('messages').appendChild(liMessage);
+        liMessage.addEventListener('webkitTransitionEnd',function( event ) { this.parentNode.removeChild(this);}, false );//webkit
+        liMessage.addEventListener('transitionend',function( event ) { this.parentNode.removeChild(this);}, false );//ff
+        liMessage.addEventListener('OTransitionEnd',function( event ) { this.parentNode.removeChild(this);}, false );//o
+        setTimeout(function(){liMessage.className = "read";},2000);
+    }
+    
     /**
      * Push callback from the server when it notifies a new mobile just connected
      * Creates a ball and adds its infos
@@ -47,6 +58,7 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         balls[data.id] = new Ball(data.x, data.y, common.ballConst.radius, common.ballConst.mass, common.ballConst.gravity, common.ballConst.elasticity, common.ballConst.friction, data.color, common.ballConst.lifeTime, common.ballConst.options);
         console.info('addMobile',data,balls);
         document.getElementById('infos').innerHTML += '<li id="'+data.id+'" style="color:'+balls[data.id].getColor()+'"><span>toto</span></li>';
+        addMessage("A new mobile just connected");
     }
     
     /**
@@ -61,6 +73,7 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         if(elem){
             elem.parentNode.removeChild(elem);
         }
+        addMessage("A mobile just disconnected");
         console.info('>removeMobile',data,balls);
     }
     
