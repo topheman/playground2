@@ -7,11 +7,18 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         width,
         height,
         ctx,
-        DEVICEMOTION_INPUT_RATIO = 0.2
+        DEVICEMOTION_INPUT_RATIO = 0.2,
+        ACTIVATE_SOUND_EFFECTS      = true,
+        SOUND_BALL_COLLISION_FILE   = "./assets/audio/bounce-ball.wav",
+        SOUND_BORDER_COLLISION_FILE = "./assets/audio/bounce-rail.wav",
+        SOUND_EXPLOSION_FILE        = "./assets/audio/explosion.wav",
+        html5SoundSupport           = false,
+        sounds                      = {};
     ;
     
     function init(){
         prepareCanvas();
+        initSounds();
         socketConnect();
         render();
         document.getElementsByTagName('body')[0].className = "loaded";
@@ -111,7 +118,7 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
      */
     function moveBall(ball){
         ball.move(ball.inputX*DEVICEMOTION_INPUT_RATIO,-ball.inputY*DEVICEMOTION_INPUT_RATIO);
-        ball.manageStageBorderCollision(width, height);
+        ball.manageStageBorderCollision(width, height, playSoundBorderCollision);
     }
     
     /**
@@ -134,6 +141,7 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
             for (j = i+1; j < ii; j++){
                 if(balls[keys[i]].checkBallCollision(balls[keys[j]]) === true){
                     balls[keys[i]].resolveBallCollision(balls[keys[j]]);
+                    playSoundBallCollision();
                 }
             }
         }
@@ -170,6 +178,45 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         renderScreen();
         window.requestAnimFrame(render);
     }
+
+    /** Sound part retrieved from bombs.topheman.com */
+
+    function initSounds(){
+        var a = document.createElement('audio');
+        html5SoundSupport       = !!(a.canPlayType && a.canPlayType('audio/wav; codecs="1"').replace(/no/, '')) && ACTIVATE_SOUND_EFFECTS;
+        if(html5SoundSupport === true){
+            sounds['soundBallCollision'] = new Audio(SOUND_BALL_COLLISION_FILE);
+            sounds['soundBorderCollision'] = new Audio(SOUND_BORDER_COLLISION_FILE);
+            sounds['soundExplosion'] = new Audio(SOUND_EXPLOSION_FILE);
+        }
+    }
+
+    function playSound(soundId,volume,time){
+        if(html5SoundSupport === true){
+            try{
+                sounds[soundId].currentTime   = time || 0;
+                sounds[soundId].volume        = volume || 1;
+                sounds[soundId].play();
+            }
+            catch(e){
+//                console.info('html5 sound.play error ',e);
+            }
+        }
+    }
+
+    function playSoundBallCollision(){
+        playSound('soundBallCollision');
+    }
+
+    function playSoundBorderCollision(){
+        playSound('soundBorderCollision',0.1);
+    }
+
+    function playSoundExplosion(){
+        playSound('soundExplosion');
+    }
+    
+    /** end sounds part */
     
     desktop = {
         
