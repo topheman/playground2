@@ -7,11 +7,13 @@ var express = require('express')
   , fs = require('fs')
   , path = require('path');
 
+var settings = require('./app/settings');
 var port = process.env.PORT || 3000;
 var app = express();
 
 // all environments
 app.configure(function(){
+    app.set('host', settings.getHost());
     app.set('port', port);
     app.set('views', __dirname + '/app/views');
     app.set('view engine', 'ejs');
@@ -34,13 +36,13 @@ app.configure('development', function(){
 fs.readdir('./app/routes', function(err, files){
     files.forEach(function(fn) {
         if(!/\.js$/.test(fn)) return;
-        console.log(fn);
         require('./app/routes/' + fn)(app);
     });
 });
 
 var server = http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
+  console.log('Host set on http://' + app.get('host'));
 });
 var io = require('socket.io').listen(server, {log: false});
 

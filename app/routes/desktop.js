@@ -10,7 +10,7 @@ module.exports = function(app) {
 
         var common = requirejs('./app/public/src/js/custom/common.js');
         
-        var mobileUrl = "http://topheman-playground.herokuapp.com/mobile";
+        var mobileUrl = "http://"+app.get('host')+"/mobile";
         
         var qrCode = null;
         var qrCode = require('qrcode-npm');
