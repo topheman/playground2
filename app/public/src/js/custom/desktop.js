@@ -30,7 +30,9 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
             socket.emit('desktop-connect',{});
         });
         socket.on('desktop-connected',function(data){
-            console.log('desktop connected (important ?)',data);
+            console.log('desktop connected',data);
+            balls = {};
+            addMessage("A new desktop has connected, reconnecting all mobile devices ...",1);
         });
         socket.on('desktop-add-mobile',function(data){
             console.log('desktop add mobile',data);
@@ -55,7 +57,7 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         liMessage.addEventListener('webkitTransitionEnd',function( event ) { this.parentNode.removeChild(this);}, false );//webkit
         liMessage.addEventListener('transitionend',function( event ) { this.parentNode.removeChild(this);}, false );//ff
         liMessage.addEventListener('OTransitionEnd',function( event ) { this.parentNode.removeChild(this);}, false );//o
-        setTimeout(function(){liMessage.className += " read";},2000);
+        setTimeout(function(){liMessage.className += " read";},2000*(3/importance));
     }
     
     /**

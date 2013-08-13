@@ -40,7 +40,7 @@ exports.init = function(io) {
                 timeStamp : Date.now()
             };
             console.info('desktop connected');
-            socket.emit('desktop-connected', {});
+            socket.broadcast.emit('desktop-connected', {});
         });
 
         //disconnect devices

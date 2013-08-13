@@ -19,15 +19,19 @@ define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
             document.getElementById('ball').style.backgroundColor = data.color;
             callback();
         });
+        socket.on('desktop-connected',function(data){
+            console.log('desktop connected',data);
+            setTimeout(function(){window.location.reload();},0);//boo .. bas setTimeout at 0 (but firefox doesn't respond to reload otherwise ...
+        });
     }
 
      function pushMotionInfos (){
-        console.info('pushMotionInfos');
+//        console.info('pushMotionInfos');
         socket.emit('mobile-infos',{
             inputX: inputX,
             inputY: inputY
         });
-        console.log('updateCoordinates');
+//        console.log('updateCoordinates');
         document.getElementById("coords").innerHTML = "inputX : "+inputX+" - inputY : "+inputY;
         window.requestAnimFrame(pushMotionInfos);
     }
