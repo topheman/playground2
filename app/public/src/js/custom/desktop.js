@@ -25,10 +25,7 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
     }
     
     function socketConnect(){
-        socket = io.connect(window.location.protocol+'//'+window.location.host);
-        socket.on('who-is-there',function(data){
-            socket.emit('desktop-connect',{});
-        });
+        socket = io.connect('/desktop');
         socket.on('desktop-connected',function(data){
             console.log('desktop connected',data);
             balls = {};

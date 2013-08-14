@@ -8,11 +8,7 @@ define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
     ;
 
      function socketConnect (callback){
-        socket = io.connect(window.location.protocol+'//'+window.location.host);
-        socket.on('who-is-there', function(data){
-            console.log('respond to who-is-there');
-            socket.emit('mobile-connect',{});
-        });
+        socket = io.connect('/mobile');
         socket.on('mobile-connected',function(data){
             console.log('respond to mobile-connected');
             console.log('mobile connected',data);
