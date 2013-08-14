@@ -75,8 +75,8 @@ define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
             }
             else if(window.DeviceOrientationEvent){
                 window.addEventListener('deviceorientation',function(e){
-                    inputX = -(e.beta/6).toFixed(5);
-                    inputY = -(e.gamma/6).toFixed(5);
+                    inputX = (e.gamma/6).toFixed(5);
+                    inputY = -(e.beta/6).toFixed(5);
                 },false);
             }
             //push coordinates to server via socket.io
