@@ -62,17 +62,20 @@ define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
             //do not execute if all the features needed aren't here
             if( (!window.DeviceMotionEvent && !window.DeviceOrientationEvent) || (!("ontouchstart" in window) && !window.DeviceMotionEvent) || (!("ontouchstart" in window) && !window.DeviceOrientationEvent) )
                 return;
+            var reduceInfos = function(n){
+                return Math.floor(n*100000)/100000;
+            };
             //listen to the orientation of the device
             if(window.DeviceMotionEvent){
                 window.addEventListener("devicemotion", function(event){
-                    inputX = (event.accelerationIncludingGravity.x).toFixed(5);
-                    inputY = (event.accelerationIncludingGravity.y).toFixed(5);
+                    inputX = reduceInfos(event.accelerationIncludingGravity.x);
+                    inputY = -reduceInfos(event.accelerationIncludingGravity.y);
                 }, false);
             }
             else if(window.DeviceOrientationEvent){
                 window.addEventListener('deviceorientation',function(e){
-                    inputX = (e.gamma/6).toFixed(5);
-                    inputY = -(e.beta/6).toFixed(5);
+                    inputX = reduceInfos(e.gamma/6);
+                    inputY = reduceInfos(e.beta/6);
                 },false);
             }
             //push coordinates to server via socket.io

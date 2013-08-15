@@ -116,7 +116,7 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
      * @param {Ball} ball
      */
     function moveBall(ball){
-        ball.move(ball.inputX*DEVICEMOTION_INPUT_RATIO,-ball.inputY*DEVICEMOTION_INPUT_RATIO);
+        ball.move(ball.inputX*DEVICEMOTION_INPUT_RATIO, ball.inputY*DEVICEMOTION_INPUT_RATIO);
         ball.manageStageBorderCollision(width, height, playSoundBorderCollision);
     }
     
