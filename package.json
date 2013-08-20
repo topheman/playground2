@@ -14,7 +14,8 @@
     "socket.io": "~0.8.7",
     "ejs": "*",
     "requirejs": "~2.1.8",
-    "qrcode-npm": "0.0.3"
+    "qrcode-npm": "0.0.3",
+    "cookie": "~0.1.0"
   },
   "devDependencies": {
     "matchdep": ">=0.1.1",

@@ -4,7 +4,9 @@ define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
     
     var inputX = 0,
         inputY = 0,
-        socket
+        socket,
+        disconnected = true,
+        requestAnimationFrameTimer
     ;
 
      function socketConnect (callback){
@@ -17,7 +19,13 @@ define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
             console.log('respond to mobile-connected');
             console.log('mobile connected',data);
             document.getElementById('ball').style.backgroundColor = data.color;
+            disconnected = false;
             callback();
+        });
+        socket.on('force-disconnect',function(data){
+            console.log('force-disconnect');
+            socket.disconnect();
+            disconnected = true;
         });
         socket.on('desktop-connected',function(data){
             console.log('desktop connected',data);
@@ -33,7 +41,9 @@ define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
         });
 //        console.log('updateCoordinates');
         document.getElementById("coords").innerHTML = "inputX : "+inputX+" - inputY : "+inputY;
-        window.requestAnimFrame(pushMotionInfos);
+        if(disconnected === false){
+            window.requestAnimFrame(pushMotionInfos);
+        }
     }
     
     mobile = {

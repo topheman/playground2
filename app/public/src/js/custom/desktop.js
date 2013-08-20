@@ -20,7 +20,7 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         prepareCanvas();
         initSounds();
         socketConnect();
-        addFocusEvents();
+//        addFocusEvents();
         render();
         document.getElementsByTagName('body')[0].className = "loaded";
     }
