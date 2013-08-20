@@ -8,7 +8,11 @@ define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
     ;
 
      function socketConnect (callback){
-        socket = io.connect('/mobile');
+        //remove this (only for test to force xhr-polling)
+        var options = {
+//            'transports' : ['xhr-polling']
+        };
+        socket = io.connect('/mobile',options);
         socket.on('mobile-connected',function(data){
             console.log('respond to mobile-connected');
             console.log('mobile connected',data);

@@ -20,12 +20,31 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         prepareCanvas();
         initSounds();
         socketConnect();
+        addFocusEvents();
         render();
         document.getElementsByTagName('body')[0].className = "loaded";
     }
     
+    function addFocusEvents(){
+        window.addEventListener('beforeunload',function(){
+            console.info('before unload');
+            return 'before unload';
+        });
+        window.addEventListener('focus',function(){
+            console.log('focus');
+        });
+        window.addEventListener('blur',function(){
+            console.log('blur');
+        });
+        window.focus();
+    }
+    
     function socketConnect(){
-        socket = io.connect('/desktop');
+        //remove this (only for test to force xhr-polling)
+        var options = {
+//            'transports' : ['xhr-polling']
+        };
+        socket = io.connect('/desktop',options);
         socket.on('desktop-connected',function(data){
             console.log('desktop connected',data);
             balls = {};

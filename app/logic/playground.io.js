@@ -8,6 +8,11 @@ exports.init = function(io) {
     
     requirejs.config({nodeRequire: require});
     common = requirejs('./app/public/src/js/custom/common.js');
+    
+    io.set('authorization', function (handshakeData, accept) {
+        console.log( (handshakeData && handshakeData.headers) ? handshakeData.headers.cookie : null);
+        accept(null, true);
+    });
 
     io.of('/mobile').on('connection',function(socket){
         //subscribe the mobile
@@ -34,6 +39,7 @@ exports.init = function(io) {
         
     
         socket.on('disconnect',function(data){
+            console.log('mobile trying to disconnect');
             if (mobiles[socket.id] !== null) {
                 //alert the desktops to remove the mobile
                 io.of('/desktop').emit('desktop-remove-mobile', {id: socket.id});
@@ -54,6 +60,7 @@ exports.init = function(io) {
         io.of('/mobile').emit('desktop-connected', {});
     
         socket.on('disconnect',function(data){
+            console.log('desktop trying to disconnect');
             if (desktops[socket.id] !== null) {
                 delete desktops[socket.id];
                 console.log('remove desktop', socket.id);
