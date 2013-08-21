@@ -11,6 +11,13 @@
         <link rel="stylesheet" type="text/css" href="./css/mobile.css" />
     </head>
     <body>
+        <div id="openModal" class="">
+            <div>
+                <h2 id="modal-title"></h2>
+                <div id="modal-message">
+                </div>
+            </div>
+        </div>
         <h1><%= title %> - Mobile</h1>
         <h2>Gyro infos</h2>
         <div id="coords">
@@ -22,8 +29,10 @@
         <script type="text/javascript">
             (function(){
                 var  dependencies = ['custom/mobile','/socket.io/socket.io.js'];
-                if( (!window.DeviceMotionEvent && !window.DeviceOrientationEvent) || (!("ontouchstart" in window) && !window.DeviceMotionEvent) || (!("ontouchstart" in window) && !window.DeviceOrientationEvent) ){
-                    alert("Your browser doesn't support the accelerometer, if you are on desktop, you still can try with the device motion emulator.\n\nMake sure to allow the popup to be able to control the device motion emulator");
+                if( (!window.DeviceMotionEvent && !window.DeviceOrientationEvent) || (!("ontouchstart" in window) && !window.DeviceMotionEvent) || (!("ontouchstart" in window) && !window.DeviceOrientationEvent) || (navigator.userAgent.toLowerCase().indexOf('firefox') > -1 && !("ontouchstart" in window)) ){
+                    if(location.href.indexOf('#tiltremote') === -1){
+                        alert("Your browser doesn't support the accelerometer, if you are on desktop, you still can try with the device motion emulator.\n\nMake sure to allow the popup to be able to control the device motion emulator");
+                    }
                     dependencies.push('vendor/device-motion-polyfill');
                 }
                 require(['./js/require.config'], function(config) {

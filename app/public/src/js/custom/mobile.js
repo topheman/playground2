@@ -8,6 +8,17 @@ define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
         disconnected = true,
         requestAnimationFrameTimer
     ;
+    
+    function displayDisconnected(){
+        
+        var modal = document.getElementById('openModal');
+        
+        modal.className = "show";
+        
+        document.getElementById('modal-title').innerHTML = "You've been disconnected";
+        document.getElementById('modal-message').innerHTML = '<p>You have another tab/window in your browser running a playground controller.</p><p><a href="javascript:window.location.reload()">Click here to reconnect</a></p>';
+        
+    }
 
      function socketConnect (callback){
         //remove this (only for test to force xhr-polling)
@@ -26,6 +37,7 @@ define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
             console.log('force-disconnect');
             socket.disconnect();
             disconnected = true;
+            displayDisconnected();
         });
         socket.on('desktop-connected',function(data){
             console.log('desktop connected',data);

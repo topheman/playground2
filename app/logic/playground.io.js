@@ -1,9 +1,8 @@
 exports.init = function(io) {
     
-    var mobiles = {},
-        desktops = {},
-        mobileSockets = {},
-        disconnectedMobileSocketIds = [],
+    var mobiles = {},//mobiles infos by socketId
+        desktops = {},//desktop infos by socketId
+        mobileSockets = {},//saving the sockets of the mobile by sessionId
         requirejs = require('requirejs'),
         cookie = require('cookie'),
         common
@@ -12,37 +11,28 @@ exports.init = function(io) {
     requirejs.config({nodeRequire: require});
     common = requirejs('./app/public/src/js/custom/common.js');
     
-    var connectMobile = function(){
-        
-    };
-    
-    var connectDesktop = function(){
-        
-    };
-    
+    /**
+     * If the socket is still active :
+     * - will send to the desktops to remove this mobile
+     * - will remove this reference from mobiles
+     * @param {String} sessionId
+     * @param {String} socketId
+     */
     var disconnectMobile = function(sessionId, socketId){
+        //before, check if the socket is still active to prevent loops the client.disconnect() callback and calling this method directly if a duplicate socket on the same session is spotted
         if(mobileSockets[sessionId] && mobiles[socketId]){
             //alert the desktops to remove the mobile - passing the socket id
             io.of('/desktop').emit('desktop-remove-mobile', {id: socketId});
             //flush the references to this connexion
             delete mobiles[socketId];
             console.log('removed mobile socket.id : ', socketId, 'sessionId : ',sessionId);
-            disconnectedMobileSocketIds.push(socketId);
         }
     };
     
-    var mobileSocketsExists = function(sessionId, socketId){
-        var i;
-        if(mobileSockets && mobileSockets[sessionId] && mobileSockets[sessionId].length > 0){
-            for(i=0; i < mobileSockets[sessionId].length; i++){
-                if(mobileSockets[sessionId][i].id === socketId){
-                    return true;
-                }
-            }
-        }
-        return false;
-    };
-    
+    /**
+     * @param {String} sessionId
+     * @param {Function} callback function(socket,sessionId, socketId){}
+     */
     var loopThroughMobileSocketsBySessionId = function(sessionId, callback){
         var i;
         if(mobileSockets && mobileSockets[sessionId] && mobileSockets[sessionId].length > 0){
@@ -52,10 +42,7 @@ exports.init = function(io) {
         }
     };
     
-    var disconnectDesktop = function(){
-        
-    };
-    
+    //using the authorization part of socket.io to retrieve the sessionId which will be available in socket.handshake.sessionID
     io.set('authorization', function (data, accept) {
         // check if there's a cookie header
         if (data.headers.cookie) {
@@ -75,6 +62,7 @@ exports.init = function(io) {
         //check if a mobile already has a session opened, to close its socket
         if(mobileSockets[socket.handshake.sessionID]){
             console.log('MOBILE ALREADY CONNECTED on this sessionId '+socket.handshake.sessionID, 'disconnecting all other sockets connected to this session');
+            //disconnect all the other sockets of this sessionId
             loopThroughMobileSocketsBySessionId(socket.handshake.sessionID, function(mobileSocket,sessionId, socketId){
                 if(sessionId === socket.handshake.sessionID && socketId !== socket.id){
                     console.log('emiting a force-disconnect to socket.id : ',socket.id);
@@ -85,6 +73,7 @@ exports.init = function(io) {
                 }
             });
         }
+        //otherwise, create the entry in mobileSockets to receive all the sockets for this mobile session
         else {
             mobileSockets[socket.handshake.sessionID] = [];
         }
@@ -102,9 +91,11 @@ exports.init = function(io) {
         io.of('/desktop').emit('desktop-add-mobile', infos);
         
         socket.on('mobile-infos', function(data) {
+            //prevent lost connection still emitting to crash the server
             if(!mobiles[socket.id]){
                 return;
             }
+            //update the mobiles infos
             mobiles[socket.id].inputX = data.inputX;
             mobiles[socket.id].inputY = data.inputY;
             //dispatch coordinates to desktops
