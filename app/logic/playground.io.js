@@ -21,17 +21,34 @@ exports.init = function(io) {
     };
     
     var disconnectMobile = function(sessionId, socketId){
-        socketId = socketId || mobileSockets[sessionId].id;
-        //must loop through all open sockets in one sessionId - push sockets into mobileSockets[sessionId]
         if(mobileSockets[sessionId] && mobiles[socketId]){
-//            var socketId = mobileSockets[sessionId].id;
             //alert the desktops to remove the mobile - passing the socket id
-            io.of('/desktop').emit('desktop-remove-mobile', {id: mobileSockets[sessionId].id});
+            io.of('/desktop').emit('desktop-remove-mobile', {id: socketId});
             //flush the references to this connexion
             delete mobiles[socketId];
-            delete mobileSockets[sessionId];
             console.log('removed mobile socket.id : ', socketId, 'sessionId : ',sessionId);
             disconnectedMobileSocketIds.push(socketId);
+        }
+    };
+    
+    var mobileSocketsExists = function(sessionId, socketId){
+        var i;
+        if(mobileSockets && mobileSockets[sessionId] && mobileSockets[sessionId].length > 0){
+            for(i=0; i < mobileSockets[sessionId].length; i++){
+                if(mobileSockets[sessionId][i].id === socketId){
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+    
+    var loopThroughMobileSocketsBySessionId = function(sessionId, callback){
+        var i;
+        if(mobileSockets && mobileSockets[sessionId] && mobileSockets[sessionId].length > 0){
+            for(i=0; i < mobileSockets[sessionId].length; i++){
+                callback.call({},mobileSockets[sessionId][i],sessionId,mobileSockets[sessionId][i].id);
+            }
         }
     };
     
@@ -57,19 +74,27 @@ exports.init = function(io) {
     io.of('/mobile').on('connection',function(socket){
         //check if a mobile already has a session opened, to close its socket
         if(mobileSockets[socket.handshake.sessionID]){
-            console.log('Mobile already connected on this sessionId '+socket.handshake.sessionID);
-            //tell the mobile client to disconnect
-            mobileSockets[socket.handshake.sessionID].emit('force-disconnect',{});
-            //flush the references to this mobile socket
-            disconnectMobile(socket.handshake.sessionID);
+            console.log('MOBILE ALREADY CONNECTED on this sessionId '+socket.handshake.sessionID, 'disconnecting all other sockets connected to this session');
+            loopThroughMobileSocketsBySessionId(socket.handshake.sessionID, function(mobileSocket,sessionId, socketId){
+                if(sessionId === socket.handshake.sessionID && socketId !== socket.id){
+                    console.log('emiting a force-disconnect to socket.id : ',socket.id);
+                    //tell the mobile client to disconnect
+                    mobileSocket.emit('force-disconnect',{});
+                    //flush the references to this mobile socket
+                    disconnectMobile(socket.handshake.sessionID, socket.id);
+                }
+            });
+        }
+        else {
+            mobileSockets[socket.handshake.sessionID] = [];
         }
         //subscribe the mobile
-        mobileSockets[socket.handshake.sessionID] = socket;
+        mobileSockets[socket.handshake.sessionID].push(socket);
         mobiles[socket.id] = {};
         var color = common.getRandomColor();
         //alert the mobile it's connected with its color
         socket.emit('mobile-connected', {color: color});
-        console.log('mobile-connected', mobiles[socket.id]);
+        console.log('mobile-connected with socket.id : ', socket.id);
         //alert the desktops to add the mobile with this color and position
         var infos = common.getRandomPositionAndSpeedInBounds();
         infos.id = socket.id;
