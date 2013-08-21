@@ -41,3 +41,11 @@ h2, #coords{
 #openModal > div p {
     text-align: center;
 }
+@media only screen
+and (max-width : 539px){
+    #tweet-this-link{
+        position:absolute;
+        top:50px;
+        left:20px;
+    }
+}

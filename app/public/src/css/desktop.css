@@ -64,4 +64,18 @@ and (max-width : 539px){
     #explanation{
         margin-right: 0px;
     }
+    #tweet-this-link{
+        position:absolute;
+        top:10px;
+        left:250px;
+    }
+}
+/* Desktops and laptops ----------- */
+@media only screen
+and (min-width : 540px) {
+    #tweet-this-link{
+        position:absolute;
+        top:15px;
+        left:400px;
+    }
 }

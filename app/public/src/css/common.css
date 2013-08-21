@@ -19,6 +19,11 @@ and (max-width : 539px){
         background-size: 320px 70px;
         margin: 0 auto;
     }
+    #tweet-this-link{
+        position:absolute;
+        top:80px;
+        left:20px;
+    }
 }
 /* Desktops and laptops ----------- */
 @media only screen
@@ -29,6 +34,11 @@ and (min-width : 540px) {
         height: 130px;
         width: 600px;
         margin: 0 auto;
+    }
+    #tweet-this-link{
+        position:absolute;
+        top:100px;
+        left:30px;
     }
 }
 
