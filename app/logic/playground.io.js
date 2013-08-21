@@ -65,7 +65,7 @@ exports.init = function(io) {
             //disconnect all the other sockets of this sessionId
             loopThroughMobileSocketsBySessionId(socket.handshake.sessionID, function(mobileSocket,sessionId, socketId){
                 if(sessionId === socket.handshake.sessionID && socketId !== socket.id){
-                    console.log('emiting a force-disconnect to socket.id : ',socket.id);
+                    console.log('emiting a force-disconnect to socket.id : ',socketId);
                     //tell the mobile client to disconnect
                     mobileSocket.emit('force-disconnect',{});
                     //flush the references to this mobile socket
