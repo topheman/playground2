@@ -28,3 +28,7 @@ a.game-link{
     padding-bottom:20px;
     background-color: white;
 }
+#presentation{
+    display: block;
+    margin: 10px auto;
+}
