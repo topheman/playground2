@@ -20,23 +20,16 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         prepareCanvas();
         initSounds();
         socketConnect();
-//        addFocusEvents();
         render();
-        document.getElementsByTagName('body')[0].className = "loaded";
+        addEmulatorLink();
     }
     
-    function addFocusEvents(){
-        window.addEventListener('beforeunload',function(){
-            console.info('before unload');
-            return 'before unload';
-        });
-        window.addEventListener('focus',function(){
-            console.log('focus');
-        });
-        window.addEventListener('blur',function(){
-            console.log('blur');
-        });
-        window.focus();
+    function addEmulatorLink(){
+        document.getElementsByTagName('body')[0].className = "loaded";
+        document.getElementById('emulator-test-anchor').addEventListener('click',function(e){
+            e.preventDefault();
+            window.open(this.href,"mobileRemote","menubar=no, status=no, scrollbars=no, menubar=no, width=400, height=400");
+        },false);
     }
     
     function socketConnect(){
