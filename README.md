@@ -18,6 +18,8 @@ Not a game, more of an experiment that could lead to a game …
 
 Thanks to [remote-tilt](http://remote-tilt.com/) for the emulator.
 
+![Topheman Playground](https://raw.github.com/topheman/playground2/master/app/public/src/css/img/topheman-playground-bandeau.png)
+
 ##Install
 
 * `npm install`

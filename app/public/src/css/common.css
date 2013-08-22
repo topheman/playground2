@@ -41,7 +41,15 @@ and (min-width : 540px) {
         left:30px;
     }
 }
-
+/** footer */
+#footer{
+    text-align: center;
+    font-size: 10px;
+    color:#62686A;
+}
+#footer a{
+    color:#62686A;
+}
 /** github ribbon **/
 
 #forkongithub a{
