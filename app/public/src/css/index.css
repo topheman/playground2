@@ -31,4 +31,13 @@ a.game-link{
 #presentation{
     display: block;
     margin: 10px auto;
+    max-width : 800px;
+    height : 583px;
+    width:100%;
+}
+@media only screen
+and (max-width : 539px){
+    #presentation {
+        height : 350px;
+    }
 }
