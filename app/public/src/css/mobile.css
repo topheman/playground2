@@ -41,6 +41,13 @@ h2, #coords{
 #openModal > div p {
     text-align: center;
 }
+#openModal h2.button {
+    background-color: #900000;
+    cursor:pointer;
+    color : white;
+    padding : 10px;
+    border-radius: 10px;
+}
 @media only screen
 and (max-width : 539px){
     #tweet-this-link{

@@ -21,7 +21,7 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         initSounds();
         socketConnect();
         render();
-        initChat();
+        Chat.init();
         addEmulatorLink();
     }
     
@@ -42,7 +42,13 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         socket.on('desktop-connected',function(data){
             console.log('desktop connected',data);
             balls = {};
+            Chat.updateUsers(data);
             addMessage("A new desktop has connected, reconnecting all mobile devices ...",1);
+        });
+        socket.on('desktop-disconnected',function(data){
+            console.log('desktop disconnected',data);
+            Chat.updateUsers(data);
+            addMessage("A desktop has disconnected ...",2);
         });
         socket.on('desktop-add-mobile',function(data){
             console.log('desktop add mobile',data);
@@ -55,6 +61,14 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         socket.on('desktop-update-motion-infos',function(data){
 //            console.log('desktop update',data);
             updateMotionInfos(data);
+        });
+        /** chat part*/
+        socket.on('desktop-update-chat-users',function(data){
+            Chat.updateUsers(data.desktops);
+            Chat.addMessage(data.message);
+        });
+        socket.on('desktop-add-message',function(data){
+            Chat.addMessage(data.message);
         });
     }
     
@@ -70,21 +84,58 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         setTimeout(function(){liMessage.className += " read";},2000*(3/importance));
     }
     
-    function initChat(){
+    var Chat = {
         
-        document.querySelector('#chat-wrapper .chat-header').addEventListener('click',function(){
-            var chatWrapperClassList = document.getElementById('chat-wrapper').classList;
-            if(chatWrapperClassList.contains('open')){
-                chatWrapperClassList.remove('open');
-                chatWrapperClassList.add('close');
-            }
-            else{
-                chatWrapperClassList.remove('close');
-                chatWrapperClassList.add('open');
-            }
-        },false);
+        init : function(){
         
-    }
+            document.querySelector('#chat-wrapper .chat-header').addEventListener('click',function(){
+                var chatWrapperClassList = document.getElementById('chat-wrapper').classList;
+                if(chatWrapperClassList.contains('open')){
+                    chatWrapperClassList.remove('open');
+                    chatWrapperClassList.add('close');
+                }
+                else{
+                    chatWrapperClassList.remove('close');
+                    chatWrapperClassList.add('open');
+                }
+            },false);
+            
+            document.getElementById('input-name').addEventListener('change',function(){
+                var name = this.value;
+                console.log(name);
+                socket.emit('desktop-update-name',{name : name});
+            });
+            
+            document.getElementById('input-message').addEventListener('change',function(){
+                var message = this.value;
+                this.value = "";
+                console.log(message);
+                socket.emit('desktop-post-message',{message : message});
+            });
+            
+        },
+                
+        updateUsers : function(data){
+            
+            var socketId,
+                html ="",
+                usersNumber = Object.keys(data).length;
+            console.log('chat updating users',data);
+            for(socketId in data){
+                html += "<li>"+data[socketId].name+"</li>";
+            }
+            document.getElementById('chat-desktop-list').innerHTML = html;
+            document.querySelector('#chat-wrapper .persons').innerHTML = "("+usersNumber+" persons)";
+            
+        },
+                
+        addMessage : function(message){
+            var divChatMessage = document.getElementById('chat-messages');
+            divChatMessage.innerHTML += "<br>"+message;
+            divChatMessage.scrollTop = divChatMessage.scrollHeight;
+        }
+        
+    };
     
     /**
      * Push callback from the server when it notifies a new mobile just connected

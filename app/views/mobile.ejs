@@ -37,9 +37,6 @@
             (function(){
                 var  dependencies = ['custom/mobile','/socket.io/socket.io.js'];
                 if( (!window.DeviceMotionEvent && !window.DeviceOrientationEvent) || (!("ontouchstart" in window) && !window.DeviceMotionEvent) || (!("ontouchstart" in window) && !window.DeviceOrientationEvent) || (navigator.userAgent.toLowerCase().indexOf('firefox') > -1 && !("ontouchstart" in window)) ){
-                    if(location.href.indexOf('#tiltremote') === -1){
-                        alert("Your browser doesn't support the accelerometer, if you are on desktop, you still can try with the device motion emulator.\n\nMake sure to allow the popup to be able to control the device motion emulator");
-                    }
                     dependencies.push('vendor/device-motion-polyfill');
                 }
                 require(['./js/require.config'], function(config) {

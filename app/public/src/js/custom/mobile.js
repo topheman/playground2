@@ -19,6 +19,30 @@ define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
         document.getElementById('modal-message').innerHTML = '<p>You have another tab/window in your browser running a playground controller.</p><p><a href="javascript:window.location.reload()">Click here to reconnect</a></p>';
         
     }
+    
+    function displayRemoteTiltInfo(){
+        
+        var modal = document.getElementById('openModal');
+        
+        modal.className = "show";
+        
+        document.getElementById('modal-title').innerHTML = "Emulator mode";
+        document.getElementById('modal-message').innerHTML = "<p>Your browser doesn't support the accelerometer, if you are on desktop, you still can try with the device motion emulator.</p><p>Make sure to allow the popup to be able to control the device motion emulator</p><h2 class='button'>OK</h2>";
+        
+        
+        var removeModal = function(){
+            
+            var modal = document.getElementById('openModal');
+            
+            modal.className = "";
+            
+            modal.removeEventListener('click',removeModal);
+            
+        };
+        
+        modal.addEventListener('click', removeModal, false);
+        
+    }
 
      function socketConnect (callback){
         //remove this (only for test to force xhr-polling)
@@ -82,6 +106,9 @@ define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
         },
 
         init : function (){
+            if(window.name === "mobileRemote"){
+                displayRemoteTiltInfo();
+            }
             //do not execute on remotetilt frame
             if(common.isRemoteTiltEnabled())
                 return;

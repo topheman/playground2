@@ -84,12 +84,16 @@ and (min-width : 540px) {
 }
 /** chat box */
 #chat-wrapper{
-    bottom:0;
+    bottom:400px;
     left:0;
     position:fixed;
     background: white;
     border: 1px #900000 solid;
     width:450px;
+    transition: bottom 1.5s;
+}
+body.loaded #chat-wrapper{
+    bottom:0;
 }
 #chat-wrapper.close{
     width:180px;
@@ -111,7 +115,7 @@ and (min-width : 540px) {
 #chat-wrapper.close .chat-box{
     display: none;
 }
-#chat-inputs .pseudo{
+#chat-inputs .name{
     width:30%;
 }
 #chat-inputs .message{

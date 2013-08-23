@@ -134,11 +134,11 @@ exports.init = function(io) {
     io.of('/desktop').on('connection',function(socket){
         console.log('>desktop connect');
         desktops[socket.id] = {
-            timeStamp : Date.now()
+            name : "Anonymous"
         };
         console.info('>>desktop connected');
-        //alert all another desktop connected (in order to force mobiles to reconnect)
-        socket.broadcast.emit('desktop-connected', {});
+        //alert all desktop connected (in order to force mobiles to reconnect) + update the chat users list
+        io.of('/desktop').emit('desktop-connected', desktops);
         io.of('/mobile').emit('desktop-connected', {});
         console.log('<desktop connect');
     
@@ -147,8 +147,26 @@ exports.init = function(io) {
             if (desktops[socket.id] !== null) {
                 delete desktops[socket.id];
                 console.log('remove desktop with socketId : ', socket.id);
+                socket.broadcast.emit('desktop-disconnected', desktops);
             }
             console.log('<desktop client - .disconnect()');
+        });
+        
+        /** chat part */
+        socket.on('desktop-update-name', function(data){
+            var previousName = desktops[socket.id].name;
+            console.log('>desktop update name from ',previousName, ' to ',data.name);
+            desktops[socket.id].name = data.name;
+            io.of('/desktop').emit('desktop-update-chat-users', {
+                desktops : desktops,
+                message : "<b>"+previousName + '</b> renamed to <b>' + data.name+"<b>"
+            });
+        });
+        socket.on('desktop-post-message', function(data){
+            console.log('>desktop ',desktops[socket.id].name, ' posted : ',data.message);
+            io.of('/desktop').emit('desktop-add-message', {
+                message : "<b>"+desktops[socket.id].name+"</b> "+data.message
+            });
         });
     
     });
