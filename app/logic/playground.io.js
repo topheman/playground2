@@ -5,6 +5,7 @@ exports.init = function(io) {
         mobileSockets = {},//saving the sockets of the mobile by sessionId
         requirejs = require('requirejs'),
         cookie = require('cookie'),
+        ent = require('ent'),
         common
     ;
     
@@ -138,34 +139,44 @@ exports.init = function(io) {
         };
         console.info('>>desktop connected');
         //alert all desktop connected (in order to force mobiles to reconnect) + update the chat users list
-        io.of('/desktop').emit('desktop-connected', desktops);
+        io.of('/desktop').emit('desktop-connected', {
+            desktops : desktops,
+            message : "<b>"+desktops[socket.id].name+"</b> has joined",
+            socketId : socket.id
+        });
         io.of('/mobile').emit('desktop-connected', {});
         console.log('<desktop connect');
     
         socket.on('disconnect',function(data){
             console.log('>desktop client - .disconnect()');
             if (desktops[socket.id] !== null) {
+                var name = desktops[socket.id].name;
                 delete desktops[socket.id];
                 console.log('remove desktop with socketId : ', socket.id);
-                socket.broadcast.emit('desktop-disconnected', desktops);
+                socket.broadcast.emit('desktop-disconnected', {
+                    desktops : desktops,
+                    message : "<b>"+name+"</b> has gone away"
+                });
             }
             console.log('<desktop client - .disconnect()');
         });
         
         /** chat part */
         socket.on('desktop-update-name', function(data){
-            var previousName = desktops[socket.id].name;
-            console.log('>desktop update name from ',previousName, ' to ',data.name);
-            desktops[socket.id].name = data.name;
+            var previousName = desktops[socket.id].name,
+                newName = ent.encode(data.name);
+            console.log('>desktop update name from ',previousName, ' to ',newName);
+            desktops[socket.id].name = newName;
             io.of('/desktop').emit('desktop-update-chat-users', {
                 desktops : desktops,
-                message : "<b>"+previousName + '</b> renamed to <b>' + data.name+"<b>"
+                message : "<b>"+previousName + '</b> renamed to <b>' + newName +"<b>"
             });
         });
         socket.on('desktop-post-message', function(data){
-            console.log('>desktop ',desktops[socket.id].name, ' posted : ',data.message);
+            var message = ent.encode(data.message);
+            console.log('>desktop ',desktops[socket.id].name, ' posted : ',message);
             io.of('/desktop').emit('desktop-add-message', {
-                message : "<b>"+desktops[socket.id].name+"</b> "+data.message
+                message : "<b>"+desktops[socket.id].name+"</b> "+message
             });
         });
     

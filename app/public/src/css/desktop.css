@@ -19,7 +19,7 @@ ul#messages li{
     transition: opacity 1s;
 }
 ul#messages li.level-1{
-    font-size : 2em;
+    font-size : 1.5em;
     font-weight: bold;
     color: #900000;
 }
@@ -51,16 +51,31 @@ ul#infos li span{
     color:black;
 }
 #playground{
-    border: 1px solid black;
+    border: 1px solid #900000;
     float: right;
-    transition: background-color 1.5s, border-color 1.5s, background-position 1.5s;
     margin-bottom: 20px;
-    background: url(img/topheman-playground-bandeau-min.png) no-repeat 50% -30%;
-}
-body.loaded #playground{
+    background: url(img/topheman-playground-bandeau-min.png) no-repeat 50% 50%;
     background-color: white;
-    border-color: #900000;
-    background-position: 50% 50%;
+    -webkit-animation: playgroundanim 1.5s;
+       -moz-animation: playgroundanim 1.5s;
+         -o-animation: playgroundanim 1.5s;
+            animation: playgroundanim 1.5s;
+}
+@-webkit-keyframes playgroundanim{
+    0%{background-color : #EFEFEF; border-color: black; background-position: 50% -30%;}
+    100%{background-color : white; border-color: #900000; background-position: 50% 50%;}
+}
+@-moz-keyframes playgroundanim{
+    0%{background-color : #EFEFEF; border-color: black; background-position: 50% -30%;}
+    100%{background-color : white; border-color: #900000; background-position: 50% 50%;}
+}
+@-o-keyframes playgroundanim{
+    0%{background-color : #EFEFEF; border-color: black; background-position: 50% -30%;}
+    100%{background-color : white; border-color: #900000; background-position: 50% 50%;}
+}
+@keyframes playgroundanim{
+    0%{background-color : #EFEFEF; border-color: black; background-position: 50% -30%;}
+    100%{background-color : white; border-color: #900000; background-position: 50% 50%;}
 }
 @media only screen
 and (max-width : 539px){
@@ -83,17 +98,109 @@ and (min-width : 540px) {
     }
 }
 /** chat box */
+@-webkit-keyframes chatboxanim{
+    0% {
+        bottom: 75%;
+        opacity: 0;
+        left:360px;
+        width: 200px;
+        height : 200px;
+        padding-top: 75px;
+    }
+    25% {
+        bottom: 75%;
+        opacity: 1;
+        left:360px;
+        width: 200px;
+        height : 200px;
+        padding-top: 75px;
+    }
+    100% {
+        height : 27px;
+        bottom: 0%;
+        z-index: 1000000;
+    }
+}
+@-moz-keyframes chatboxanim{
+    0% {
+        bottom: 75%;
+        opacity: 0;
+        left:360px;
+        width: 200px;
+        height : 200px;
+        padding-top: 75px;
+    }
+    25% {
+        bottom: 75%;
+        opacity: 1;
+        left:360px;
+        width: 200px;
+        height : 200px;
+        padding-top: 75px;
+    }
+    100% {
+        height : 27px;
+        bottom: 0%;
+        z-index: 1000000;
+    }
+}
+@-o-keyframes chatboxanim{
+    0% {
+        bottom: 75%;
+        opacity: 0;
+        left:360px;
+        width: 200px;
+        height : 200px;
+        padding-top: 75px;
+    }
+    25% {
+        bottom: 75%;
+        opacity: 1;
+        left:360px;
+        width: 200px;
+        height : 200px;
+        padding-top: 75px;
+    }
+    100% {
+        height : 27px;
+        bottom: 0%;
+        z-index: 1000000;
+    }
+}
+@keyframes chatboxanim{
+    0% {
+        bottom: 75%;
+        opacity: 0;
+        left:360px;
+        width: 200px;
+        height : 200px;
+        padding-top: 75px;
+    }
+    25% {
+        bottom: 75%;
+        opacity: 1;
+        left:360px;
+        width: 200px;
+        height : 200px;
+        padding-top: 75px;
+    }
+    100% {
+        height : 27px;
+        bottom: 0%;
+        z-index: 1000000;
+    }
+}
 #chat-wrapper{
-    bottom:400px;
+    bottom:0;
     left:0;
     position:fixed;
     background: white;
     border: 1px #900000 solid;
     width:450px;
-    transition: bottom 1.5s;
-}
-body.loaded #chat-wrapper{
-    bottom:0;
+    -webkit-animation: chatboxanim 1.5s linear 1.5s;
+       -moz-animation: chatboxanim 1.5s linear 1.5s;
+         -o-animation: chatboxanim 1.5s linear 1.5s;
+            animation: chatboxanim 1.5s linear 1.5s;
 }
 #chat-wrapper.close{
     width:180px;

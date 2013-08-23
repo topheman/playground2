@@ -26,7 +26,6 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
     }
     
     function addEmulatorLink(){
-        document.getElementsByTagName('body')[0].className = "loaded";
         document.getElementById('emulator-test-anchor').addEventListener('click',function(e){
             e.preventDefault();
             window.open(this.href,"mobileRemote","menubar=no, status=no, scrollbars=no, menubar=no, width=400, height=400");
@@ -42,13 +41,17 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         socket.on('desktop-connected',function(data){
             console.log('desktop connected',data);
             balls = {};
-            Chat.updateUsers(data);
-            addMessage("A new desktop has connected, reconnecting all mobile devices ...",1);
+            Chat.updateUsers(data.desktops);
+            Chat.addMessage(data.message);
+            //only show this message to the other desktops already connected
+            if(socket.socket.sessionid !== data.socketId){
+                addMessage("A new desktop has connected, reconnecting all mobile devices ...",2);
+            }
         });
         socket.on('desktop-disconnected',function(data){
             console.log('desktop disconnected',data);
-            Chat.updateUsers(data);
-            addMessage("A desktop has disconnected ...",2);
+            Chat.updateUsers(data.desktops);
+            Chat.addMessage(data.message);
         });
         socket.on('desktop-add-mobile',function(data){
             console.log('desktop add mobile',data);
@@ -125,7 +128,7 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
                 html += "<li>"+data[socketId].name+"</li>";
             }
             document.getElementById('chat-desktop-list').innerHTML = html;
-            document.querySelector('#chat-wrapper .persons').innerHTML = "("+usersNumber+" persons)";
+            document.querySelector('#chat-wrapper .persons').innerHTML = "("+usersNumber+" person"+(usersNumber > 1 ? "s" : "")+")";
             
         },
                 
