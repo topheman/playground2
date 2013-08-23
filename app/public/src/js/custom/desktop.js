@@ -21,6 +21,7 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         initSounds();
         socketConnect();
         render();
+        initChat();
         addEmulatorLink();
     }
     
@@ -67,6 +68,22 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
         liMessage.addEventListener('transitionend',function( event ) { this.parentNode.removeChild(this);}, false );//ff
         liMessage.addEventListener('OTransitionEnd',function( event ) { this.parentNode.removeChild(this);}, false );//o
         setTimeout(function(){liMessage.className += " read";},2000*(3/importance));
+    }
+    
+    function initChat(){
+        
+        document.querySelector('#chat-wrapper .chat-header').addEventListener('click',function(){
+            var chatWrapperClassList = document.getElementById('chat-wrapper').classList;
+            if(chatWrapperClassList.contains('open')){
+                chatWrapperClassList.remove('open');
+                chatWrapperClassList.add('close');
+            }
+            else{
+                chatWrapperClassList.remove('close');
+                chatWrapperClassList.add('open');
+            }
+        },false);
+        
     }
     
     /**
