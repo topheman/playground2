@@ -27,7 +27,7 @@ define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
         modal.className = "show";
         
         document.getElementById('modal-title').innerHTML = "Emulator mode";
-        document.getElementById('modal-message').innerHTML = "<p>Your browser doesn't support the accelerometer, if you are on desktop, you still can try with the device motion emulator.</p><p>Make sure to allow the popup to be able to control the device motion emulator</p><h2 class='button'>OK</h2>";
+        document.getElementById('modal-message').innerHTML = "<p>Your browser doesn't support the accelerometer, if you are on desktop, you still can try with the device motion emulator.</p><p>Make sure to <strong>allow the popup</strong> to be able to control the device motion emulator</p><h2 class='button'>OK</h2>";
         
         
         var removeModal = function(){
@@ -106,12 +106,13 @@ define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
         },
 
         init : function (){
-            if(window.name === "mobileRemote"){
-                displayRemoteTiltInfo();
-            }
             //do not execute on remotetilt frame
             if(common.isRemoteTiltEnabled())
                 return;
+            //display modal info if remoteTilt was added
+            if(window.remoteTiltAdded === true){
+                displayRemoteTiltInfo();
+            }
             //do not execute if all the features needed aren't here
             if( (!window.DeviceMotionEvent && !window.DeviceOrientationEvent) || (!("ontouchstart" in window) && !window.DeviceMotionEvent) || (!("ontouchstart" in window) && !window.DeviceOrientationEvent) )
                 return;

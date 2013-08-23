@@ -163,7 +163,8 @@ function initServer(src) {
     }
   };
 
-  var remote = window.open(window.location.toString() + '#tiltremote', 'Tilt', 'width=300,height=' + height);
+  //modif topheman - added global remoteTiltWindow var assignment to allow check if remote-tilt is loaded
+  var remote = remoteTiltWindow = window.open(window.location.toString() + '#tiltremote', 'Tilt', 'width=300,height=' + height);
 
   // stupid logic to detect if Chrome really did block the window
   if (remote) {
