@@ -76,6 +76,10 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
             }
             Chat.addMessage(data.message);
         });
+        //make sure to disconnect the socket before leaving the page
+        window.addEventListener('beforeunload',function(){
+            socket.disconnect();
+        },false);
     }
     
     function addMessage(message,importance){

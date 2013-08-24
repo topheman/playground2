@@ -137,6 +137,10 @@ define(['custom/common','utils/requestAnimFrame','utils/blockedPopup'],function(
                     inputY = reduceInfos(e.beta/6);
                 },false);
             }
+            //make sure to disconnect the socket before leaving the page
+            window.addEventListener('beforeunload',function(){
+                socket.disconnect();
+            },false);
             //push coordinates to server via socket.io
             socketConnect(pushMotionInfos);
         },
