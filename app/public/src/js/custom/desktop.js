@@ -28,7 +28,7 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
     function addEmulatorLink(){
         document.getElementById('emulator-test-anchor').addEventListener('click',function(e){
             e.preventDefault();
-            window.open(this.href,"mobileRemote","menubar=no, status=no, scrollbars=no, menubar=no, width=400, height=400");
+            window.open(this.href,"mobileRemote","menubar=no, status=no, scrollbars=no, width=400, height=400");
         },false);
     }
     

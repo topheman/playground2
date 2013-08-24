@@ -163,21 +163,22 @@ function initServer(src) {
     }
   };
 
-  //modif topheman - added global remoteTiltWindow var assignment to allow check if remote-tilt is loaded
+  //modif topheman - added global remoteTiltWindow var assignment to allow postMessage
   var remote = remoteTiltWindow = window.open(window.location.toString() + '#tiltremote', 'Tilt', 'width=300,height=' + height);
 
+  //modif topheman removed the remote part (not to have the missleading connecting message in firefox)
   // stupid logic to detect if Chrome really did block the window
-  if (remote) {
-    remote.onload = function () {
-      setTimeout(function () {
-        if (remote.innerHeight <= 0) {
-          blocked();
-        }        
-      }, 10);
-    }
-  } else {
-    blocked();
-  }
+//  if (remote) {
+//    remote.onload = function () {
+//      setTimeout(function () {
+//        if (remote.innerHeight <= 0) {
+//          blocked();
+//        }        
+//      }, 10);
+//    }
+//  } else {
+//    blocked();
+//  }
   
 }
 
@@ -416,7 +417,7 @@ function initRemote() {
     if (event.gamma !== null) orientation.gamma = event.gamma;
     update();
   }, false);
-
+  
   update();
 }
 

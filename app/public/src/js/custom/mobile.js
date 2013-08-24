@@ -1,4 +1,4 @@
-define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
+define(['custom/common','utils/requestAnimFrame','utils/blockedPopup'],function(common,undefined,blockedPopup){
     
     var mobile;
     
@@ -109,9 +109,14 @@ define(['custom/common','utils/requestAnimFrame'],function(common,undefined){
             //do not execute on remotetilt frame
             if(common.isRemoteTiltEnabled())
                 return;
-            //display modal info if remoteTilt was added
+            //display modal info if remoteTilt was added AND if its popup was blocked
             if(window.remoteTiltAdded === true){
-                displayRemoteTiltInfo();
+                blockedPopup.isBlocked(remoteTiltWindow,function(){
+                    displayRemoteTiltInfo();
+                    blockedPopup.onUnblock(remoteTiltWindow,function(){
+                        document.getElementById('openModal').className = "";
+                    });
+                });
             }
             //do not execute if all the features needed aren't here
             if( (!window.DeviceMotionEvent && !window.DeviceOrientationEvent) || (!("ontouchstart" in window) && !window.DeviceMotionEvent) || (!("ontouchstart" in window) && !window.DeviceOrientationEvent) )
