@@ -1,4 +1,6 @@
 *{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
 #explanation{
@@ -107,7 +109,15 @@ and (min-width : 540px) {
         height : 200px;
         padding-top: 75px;
     }
-    25% {
+    50% {
+        bottom: 75%;
+        opacity: 0;
+        left:360px;
+        width: 200px;
+        height : 200px;
+        padding-top: 75px;
+    }
+    65% {
         bottom: 75%;
         opacity: 1;
         left:360px;
@@ -130,7 +140,15 @@ and (min-width : 540px) {
         height : 200px;
         padding-top: 75px;
     }
-    25% {
+    50% {
+        bottom: 75%;
+        opacity: 0;
+        left:360px;
+        width: 200px;
+        height : 200px;
+        padding-top: 75px;
+    }
+    65% {
         bottom: 75%;
         opacity: 1;
         left:360px;
@@ -153,7 +171,15 @@ and (min-width : 540px) {
         height : 200px;
         padding-top: 75px;
     }
-    25% {
+    50% {
+        bottom: 75%;
+        opacity: 0;
+        left:360px;
+        width: 200px;
+        height : 200px;
+        padding-top: 75px;
+    }
+    65% {
         bottom: 75%;
         opacity: 1;
         left:360px;
@@ -176,7 +202,15 @@ and (min-width : 540px) {
         height : 200px;
         padding-top: 75px;
     }
-    25% {
+    50% {
+        bottom: 75%;
+        opacity: 0;
+        left:360px;
+        width: 200px;
+        height : 200px;
+        padding-top: 75px;
+    }
+    65% {
         bottom: 75%;
         opacity: 1;
         left:360px;
@@ -197,10 +231,10 @@ and (min-width : 540px) {
     background: white;
     border: 1px #900000 solid;
     width:450px;
-    -webkit-animation: chatboxanim 1.5s linear 1.5s;
-       -moz-animation: chatboxanim 1.5s linear 1.5s;
-         -o-animation: chatboxanim 1.5s linear 1.5s;
-            animation: chatboxanim 1.5s linear 1.5s;
+    -webkit-animation: chatboxanim 3.5s;
+       -moz-animation: chatboxanim 3.5s;
+         -o-animation: chatboxanim 3.5s;
+            animation: chatboxanim 3.5s;
 }
 #chat-wrapper.close{
     width:180px;
@@ -210,7 +244,39 @@ and (min-width : 540px) {
     height:25px;
     text-align: center;
     padding-top:2px;
+}
+#chat-wrapper.close .chat-header{
     cursor: pointer;
+}
+#chat-wrapper.open .chat-header{
+    cursor: auto;
+}
+#chat-wrapper .chat-header.message-waiting{
+    background-color : red;
+    -webkit-animation: animMessageWaiting 1s infinite;
+       -moz-animation: animMessageWaiting 1s infinite;
+         -o-animation: animMessageWaiting 1s infinite;
+            animation: animMessageWaiting 1s infinite;
+}
+@-webkit-keyframes animMessageWaiting{
+    0%   {background-color:white; color: black;}
+    50%  {background-color:#900000; color: white;}
+    100%   {background-color:white; color: black;}
+}
+@-moz-keyframes animMessageWaiting{
+    0%   {background-color:white; color: black;}
+    50%  {background-color:#900000; color: white;}
+    100%   {background-color:white; color: black;}
+}
+@-o-keyframes animMessageWaiting{
+    0%   {background-color:white; color: black;}
+    50%  {background-color:#900000; color: white;}
+    100%   {background-color:white; color: black;}
+}
+@keyframes animMessageWaiting{
+    0%   {background-color:white; color: black;}
+    50%  {background-color:#900000; color: white;}
+    100%   {background-color:white; color: black;}
 }
 #chat-wrapper .chat-box{
     width:100%;

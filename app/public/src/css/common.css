@@ -52,6 +52,8 @@ and (min-width : 540px) {
 }
 /** github ribbon **/
 #forkongithub, #forkongithub a{
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
     box-sizing: content-box;
 }
 #forkongithub a{

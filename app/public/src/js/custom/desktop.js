@@ -71,6 +71,9 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
             Chat.addMessage(data.message);
         });
         socket.on('desktop-add-message',function(data){
+            if(document.getElementById('chat-wrapper').className.indexOf('close') > -1){
+                document.querySelector('#chat-wrapper .chat-header').classList.add('message-waiting');
+            }
             Chat.addMessage(data.message);
         });
     }
@@ -90,16 +93,31 @@ define(['custom/common','utils/requestAnimFrame','vendor/Ball'],function(common,
     var Chat = {
         
         init : function(){
+            
+            var closeChatWindow = function(chatWrapper){
+                chatWrapper.classList.remove('open');
+                chatWrapper.classList.add('close');
+            };
+            
+            var openChatWindow = function(chatWrapper){
+                document.querySelector('#chat-wrapper .chat-header').classList.remove('message-waiting');
+                chatWrapper.classList.remove('close');
+                chatWrapper.classList.add('open');
+            };
         
-            document.querySelector('#chat-wrapper .chat-header').addEventListener('click',function(){
-                var chatWrapperClassList = document.getElementById('chat-wrapper').classList;
-                if(chatWrapperClassList.contains('open')){
-                    chatWrapperClassList.remove('open');
-                    chatWrapperClassList.add('close');
+            document.getElementById('chat-wrapper').addEventListener('click',function(e){
+                e.stopPropagation();
+                var chatWrapper = this;
+                if(chatWrapper.classList.contains('close')){
+                    openChatWindow(chatWrapper);
                 }
-                else{
-                    chatWrapperClassList.remove('close');
-                    chatWrapperClassList.add('open');
+            },false);
+        
+            document.getElementsByTagName('html')[0].addEventListener('click',function(e){
+                console.log(e);
+                var chatWrapper = document.getElementById('chat-wrapper');
+                if(chatWrapper.classList.contains('open')){
+                    closeChatWindow(chatWrapper);
                 }
             },false);
             
