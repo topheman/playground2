@@ -36,7 +36,7 @@
         <script type="text/javascript">
             (function(){
                 var  dependencies = ['custom/mobile','/socket.io/socket.io.js'];
-                if( (!window.DeviceMotionEvent && !window.DeviceOrientationEvent) || (!("ontouchstart" in window) && !window.DeviceMotionEvent) || (!("ontouchstart" in window) && !window.DeviceOrientationEvent) || (navigator.userAgent.toLowerCase().indexOf('firefox') > -1 && !("ontouchstart" in window)) ){
+                if(location.search === "?emulate"){
                     dependencies.push('vendor/device-motion-polyfill');
                     window.remoteTiltAdded = true;
                 }
