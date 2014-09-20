@@ -34,6 +34,6 @@ Take it, make your own games and tell me about it !
 
 ##Notes
 
-My heroku instance doesn't support WebSockets, so socket.io fallbacks to xhr-polling. If you want to test a version with real WebSockets, you can try : [http://playground.topheman.kd.io:3000](http://playground.topheman.kd.io:3000/) although it only stays up for 20 min (after the VM goes asleep - so tweet me or whatever so I could lauch it).
+On their first version, heroku didn't provide WebSockets support, so socket.io fallbacked to xhr-polling. That's now fixed.
 
 When you'll browse the code, you'll see that there is a connection/disconnetion routine on the sockets which makes sure to disconnect any mobile client which has more than one socket opened (to prevent multiple dead balls). This was a tricky part, playing with the express session and the socket.io handshake :-) …
