@@ -3,7 +3,7 @@ TOPHEMAN PLAYGROUND V2
 
 ##Intro
 
-Try it at : [http://topheman-playground.herokuapp.com](http://topheman-playground.herokuapp.com/) (heroku instance).
+Try it at : [https://topheman-playground.herokuapp.com](https://topheman-playground.herokuapp.com/) (heroku instance).
 
 Presentation : [http://slid.es/topheman/topheman-playground](http://slid.es/topheman/topheman-playground)
 
@@ -24,6 +24,8 @@ Thanks to [remote-tilt](http://remote-tilt.com/) for the emulator.
 
 * `npm install`
 * `node app.js 192.168.1.2:3000` (192.168.1.2:3000 being the public IP:PORT of your node server - port by default at 3000 - this is used to create the QR-Code)
+
+OK for node v4 & v5
 
 ##Next
 
