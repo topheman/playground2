@@ -9,7 +9,7 @@
     "start": "node app.js"
   },
   "engines": {
-    "node": "5"
+    "node": "6"
   },
   "version": "2.2.1",
   "dependencies": {
