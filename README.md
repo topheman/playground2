@@ -1,7 +1,7 @@
 TOPHEMAN PLAYGROUND V2
 ======================
 
-##Intro
+## Intro
 
 Try it at : [https://topheman-playground.herokuapp.com](https://topheman-playground.herokuapp.com/) (heroku instance).
 
@@ -20,21 +20,21 @@ Thanks to [remote-tilt](http://remote-tilt.com/) for the emulator.
 
 ![Topheman Playground](https://raw.github.com/topheman/playground2/master/app/public/src/css/img/topheman-playground-bandeau.png)
 
-##Install
+## Install
 
 * `npm install`
 * `node app.js 192.168.1.2:3000` (192.168.1.2:3000 being the public IP:PORT of your node server - port by default at 3000 - this is used to create the QR-Code)
 
 OK for node v4 & v5
 
-##Next
+## Next
 
 I coded the [v1](https://github.com/topheman/playground1) about a year ago, and now I decided to refactor it so that it could be a sort of a boilerplate for some other games.
 
 Take it, make your own games and tell me about it !
 
 
-##Notes
+## Notes
 
 On their first version, heroku didn't provide WebSockets support, so socket.io fallbacked to xhr-polling. That's now fixed.
 
