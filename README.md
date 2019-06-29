@@ -1,6 +1,8 @@
 TOPHEMAN PLAYGROUND V2
 ======================
 
+**This repository is DEPRECATED, please visit the new version at [topheman/playground](https://github.com/topheman/playground)**
+
 ## Intro
 
 Try it at : [https://topheman-playground.herokuapp.com](https://topheman-playground.herokuapp.com/) (heroku instance).
